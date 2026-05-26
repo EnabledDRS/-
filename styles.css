@@ -2,19 +2,22 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: 100vh;
+    min-height: 100vh;
+    min-height: 100dvh;
     margin: 0;
     background-color: #121212;
     color: #ffffff;
-    font-size: 12px;
+    font-size: 13px;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 /* -------------------------------------------------------------- */
 .container {
-    width: 350px;
+    width: 500px;
     height: auto;
     border: 1px solid #333;
     padding: 5px;
@@ -26,11 +29,21 @@ body {
     background-color: #1e1e1e;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 540px) {
     .container {
         width: 100%;
         height: auto;
-        padding: 5px 5px;
+        padding: 5px 0;
+        border-left: none;
+        border-right: none;
+    }
+    .top-controller {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    .buttom-controller {
+        padding-left: 8px;
+        padding-right: 8px;
     }
 }
 /* -------------------------------------------------------------- */
@@ -39,46 +52,68 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height:auto;
+    height: auto;
     padding-top: 5px;
     padding-bottom: 10px;
 }
 
-.region-select {
+.region-select, .mode-select {
     background-color: #333;
     color: #ffffff;
     border: 1px solid #444;
-    padding: 5px;
+    padding: 6px 5px;
     margin-right: 5px;
+    font-size: 13px;
+    border-radius: 4px;
+    min-height: 36px;
+    touch-action: manipulation;
+}
+.mode-select {
+    margin-right: 0;
 }
 
 .time-info {
     margin-left: 5px;
     color: #cccccc;
+    text-align: right;
+    white-space: nowrap;
 }
 
 .now {
-    margin-top: 2px;
+    margin-top: 3px;
 }
 /* -------------------------------------------------------------- */
-#radar-image{
+#radar-image {
     width: 100%;
-    height: auto;
+    height: 380px;
+    object-fit: contain;
+    background-color: #000;
     display: block;
+}
+
+@media (max-width: 540px) {
+    #radar-image {
+        height: auto;
+        aspect-ratio: 1 / 1;
+        width: 100%;
+    }
 }
 
 .image-time {
     text-align: center;
     margin: 5px 0;
-    font-size: 14px; 
-    width: 100%; 
+    font-size: 14px;
+    width: 100%;
 }
 
 #time-slider {
     display: block;
-    width: 85%; 
+    width: 85%;
     background-color: #333;
-    margin: 5 auto;
+    margin: 5px auto;
+    height: 20px;
+    cursor: pointer;
+    touch-action: manipulation;
 }
 /* -------------------------------------------------------------- */
 .buttom-controller {
@@ -86,25 +121,26 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 5px 0;
+    padding: 6px 0;
 }
 
 .speed-display {
     border: 1px solid #444;
     border-radius: 5px;
     padding: 0 10px;
-    height: 28px;
+    height: 36px;
     line-height: 18px;
     margin: 0 5px;
     color: #ffffff;
     background-color: #333;
     display: flex;
     align-items: center;
+    font-size: 13px;
 }
 
 .speed-btn, .pause-btn {
-    height: 28px;
-    padding: 0 10px;
+    height: 36px;
+    padding: 0 12px;
     color: #ffffff;
     background-color: #444;
     border: 1px solid #555;
@@ -113,18 +149,22 @@ body {
     display: flex;
     align-items: center;
     cursor: pointer;
+    font-size: 13px;
     transition: background-color 0.3s, transform 0.2s;
     white-space: nowrap;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .speed-btn:hover, .pause-btn:hover, .grid-btn:hover {
-    background-color: #444;
+    background-color: #555;
     transform: scale(1.02);
 }
 .speed-btn:active, .pause-btn:active {
-    background-color: #555;
+    background-color: #666;
     transform: scale(0.95);
-    color: #ffffff; /* Added to revert color after click */
+    color: #ffffff;
 }
 
 /* -------------------------------------------------------------- */
@@ -132,59 +172,191 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 85%;
-    margin: 5px auto;
+    width: 90%;
+    margin: 6px auto;
+    gap: 4px;
 }
 
 .checkboxes label {
     display: flex;
     align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    touch-action: manipulation;
+    padding: 4px 0;
 }
 
+.checkboxes input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #6699ff;
+    flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------- */
+.custom-config {
+    width: 85%;
+    margin: 4px auto 0;
+}
+.custom-config-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.config-label {
+    color: #cccccc;
+    white-space: nowrap;
+}
+.config-unit {
+    color: #aaaaaa;
+    font-size: 11px;
+    white-space: nowrap;
+}
+.config-sep {
+    color: #555;
+}
+.config-input {
+    height: 32px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #333;
+    color: #ffffff;
+    font-size: 13px;
+    padding: 0 6px;
+    width: 55px;
+    box-sizing: border-box;
+    text-align: center;
+}
 /* -------------------------------------------------------------- */
 .button-grid {
     display: grid;
     grid-template-columns: 5fr 1fr 1fr 3fr;
     grid-template-rows: repeat(3, 1fr);
     gap: 5px;
-    width: 80%;
+    width: 85%;
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
 .grid-input {
     width: 100%;
-    height: 28px;
+    height: 36px;
     box-sizing: border-box;
     border: 1px solid #555;
     border-radius: 5px;
-    padding-left: 5px
+    padding-left: 8px;
+    background-color: #333;
+    color: #ffffff;
+    font-size: 13px;
 }
 
 .grid-btn {
-    padding: 0 10px;
+    padding: 0 8px;
+    min-height: 36px;
+    height: 100%;
     color: #ffffff;
     background-color: #444;
     border: 1px solid #555;
     border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .grid-btn:hover {
-    background-color: #444;
+    background-color: #555;
     transform: scale(1.02);
 }
 
 .grid-btn:active {
-    background-color: #555;
+    background-color: #666;
     transform: scale(0.95);
-    color: #ffffff; /* Added to revert color after click */
+    color: #ffffff;
 }
 
 .grid-btn.highlight {
     border: 1px solid #ff0000;
 }
 
+/* -------------------------------------------------------------- */
+.rain-predict-panel {
+    width: 90%;
+    margin: 8px auto;
+    background-color: #262626;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 8px 10px;
+    box-sizing: border-box;
+}
+.rp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+.rp-title {
+    font-weight: 600;
+    color: #6cf;
+    font-size: 14px;
+}
+.rp-refresh {
+    height: 28px;
+    padding: 0 10px;
+    background-color: #444;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+.rp-refresh:hover { background-color: #555; }
+.rp-summary {
+    background-color: #1a1a1a;
+    padding: 6px 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+.rp-meta {
+    color: #888;
+    font-size: 11px;
+}
+.rp-table-wrap {
+    max-height: 240px;
+    overflow-y: auto;
+}
+.rp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.rp-table th, .rp-table td {
+    padding: 4px 6px;
+    border-bottom: 1px solid #333;
+    text-align: center;
+}
+.rp-table th {
+    background-color: #333;
+    color: #ccc;
+    position: sticky;
+    top: 0;
+}
+.rp-table tr.rp-hit { background-color: #2a3848; }
+.rp-note {
+    margin-top: 6px;
+    color: #777;
+    font-size: 10px;
+    line-height: 1.4;
+}
 /* -------------------------------------------------------------- */
 .bottom {
     display: flex;

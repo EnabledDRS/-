@@ -10,7 +10,7 @@
     <div class="container">
         <div class="top-controller">
             <select class="region-select">
-                <option>전국/선택지점[4시간]</option>
+                <option>전국[4시간]</option>
                 <option>수도권[2시간]</option>
                 <option>충청권[2시간]</option>
                 <option>호남권[2시간]</option>
@@ -19,7 +19,12 @@
                 <option>강원권[2시간]</option>
                 <option>제주권[2시간]</option>
                 <option>동아시아[24시간]</option>
-            </select>     
+                <option>사용자지정</option>
+            </select>
+            <select class="mode-select" id="mode-select">
+                <option value="none">분석없음</option>
+                <option value="rain-predict">강수예측</option>
+            </select>
             <div class="time-info">
                 <div class="refresh-time">갱신: yyyy.mm.dd. hh:mm:ss</div>
                 <div class="now">현재: yyyy.mm.dd. hh:mm:ss</div>
@@ -41,6 +46,17 @@
             <label><input type="checkbox" id="topo"> 지형</label>
             <label><input type="checkbox" id="lightning"> 낙뢰</label>
         </div>
+        <div class="custom-config" id="custom-config" style="display:none;">
+            <div class="custom-config-row">
+                <span class="config-label">기간</span>
+                <input type="number" class="config-input" id="duration-input" value="4" min="1" max="72">
+                <span class="config-unit">시간</span>
+                <span class="config-sep">·</span>
+                <span class="config-label">간격</span>
+                <input type="number" class="config-input" id="interval-input" value="5" min="5" max="120">
+                <span class="config-unit">분 (5단위)</span>
+            </div>
+        </div>
         <div class="button-grid">
             <input type="text" class="grid-input" id="lat-display" value="35.90" placeholder="위도(32°~44°)" >
             <button class="grid-btn" id="down-button-lat">▽</button>
@@ -57,6 +73,26 @@
             <button class="grid-btn" id="zero-button">기본값</button>
         </div>
 
+        <div class="rain-predict-panel" id="rain-predict-panel" style="display:none;">
+            <div class="rp-header">
+                <span class="rp-title">강수예측 (중심점 기준)</span>
+                <button class="rp-refresh" id="rp-refresh">새로고침</button>
+            </div>
+            <div class="rp-summary" id="rp-summary">프레임 로딩 중…</div>
+            <div class="rp-table-wrap">
+                <table class="rp-table" id="rp-table">
+                    <thead>
+                        <tr><th>시점</th><th>강수강도</th><th>등급</th></tr>
+                    </thead>
+                    <tbody id="rp-tbody"></tbody>
+                </table>
+            </div>
+            <div class="rp-note">
+                * 12프레임(60분) 이내 비구름 도달 외삽. 색상 → 강수강도 변환은 KMA C4 컬러맵 근사값.<br>
+                * 중심점 = 현재 화면 중앙(레이더 이미지 중앙).
+            </div>
+        </div>
+
         <div class="bottom">
             <img id="logo" src="https://www.kogl.or.kr/static/kogl/img/sub/number2.jpg" alt="공공누리 제2유형">
             <div class="resource"> 출처: 기상청</div> 
@@ -64,5 +100,6 @@
         
     </div>
     <script src="scripts.js"></script>
+    <script src="rain-predict.js"></script>
 </body>
 </html>
