@@ -163,7 +163,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         imageTimes.reverse();
         preloadedImages = urls.map((url, idx) => {
             const img = new Image();
-            img.crossOrigin = 'anonymous';
             img.src = url;
             img.onerror = () => {
                 console.warn(`이미지 로딩 실패: ${url}`);
@@ -195,12 +194,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             image.style.width = "100%";
             timeDisplay.textContent = formatDate(preloadedImages[0].time, "image");
         }
-
-        window.bosaiFrames = preloadedImages;
-        window.bosaiFrameIntervalMin = selectedRegionConfig.interval;
-        document.dispatchEvent(new CustomEvent('framesLoaded', {
-            detail: { frames: preloadedImages, intervalMin: selectedRegionConfig.interval }
-        }));
 
         if (isPlaying) startAutoPlay();
 
